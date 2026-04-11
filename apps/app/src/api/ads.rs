@@ -230,6 +230,5 @@ pub async fn open_link<R: Runtime>(
 
 #[tauri::command]
 pub async fn get_ads_personalization() -> crate::api::Result<bool> {
-    let res = settings::get().await?;
-    Ok(res.personalized_ads)
+    Ok(false)
 }

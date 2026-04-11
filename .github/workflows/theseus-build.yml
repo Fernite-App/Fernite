@@ -89,6 +89,16 @@ jobs:
           sudo apt-get update
           sudo apt-get install -yq libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev
 
+      - name: Make Gradle wrapper executable
+        run: |
+          chmod +x packages/app-lib/java/gradlew
+          chmod +x packages/app-lib/java/gradlew.bat
+
+      - name: Make Gradle wrapper executable
+        run: |
+          chmod +x packages/app-lib/java/gradlew
+          chmod +x packages/app-lib/java/gradlew.bat
+
       - name: Setup Dasel
         uses: jaxxstorm/action-install-gh-release@v2.1.0
         with:

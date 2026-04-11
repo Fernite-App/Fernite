@@ -1,0 +1,3 @@
+{
+	"extends": "@fernite/tooling-config/typescript/vue.json"
+}

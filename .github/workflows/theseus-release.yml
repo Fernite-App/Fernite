@@ -1,0 +1,40 @@
+name: Fernite Launcher release
+on:
+  workflow_run:
+    workflows: ['Fernite Launcher build']
+    types: [completed]
+
+jobs:
+  release:
+    name: Upload to existing Fernite Launcher release
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      startsWith(github.event.workflow_run.head_branch, 'v')
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Check out code
+        uses: actions/checkout@v4
+
+      - name: 📥 Download Fernite Launcher artifacts
+        uses: dawidd6/action-download-artifact@v11
+        with:
+          workflow: theseus-build.yml
+          workflow_conclusion: success
+          event: push
+          branch: ${{ github.event.workflow_run.head_branch }}
+          use_unzip: true
+
+      - name: 📤 Upload artifacts to existing GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION_TAG="${{ github.event.workflow_run.head_branch }}"
+          VERSION="${VERSION_TAG#v}"
+
+          gh release upload "$VERSION_TAG" \
+            "App bundle (x86_64-pc-windows-msvc)/release/bundle/nsis/Fernite Launcher_${VERSION}_x64-setup.exe" \
+            "App bundle (universal-apple-darwin)/universal-apple-darwin/release/bundle/dmg/Fernite Launcher_${VERSION}_universal.dmg" \
+            "App bundle (x86_64-unknown-linux-gnu)/release/bundle/appimage/Fernite Launcher_${VERSION}_amd64.AppImage" \
+            "App bundle (x86_64-unknown-linux-gnu)/release/bundle/deb/Fernite Launcher_${VERSION}_amd64.deb" \
+            "App bundle (x86_64-unknown-linux-gnu)/release/bundle/rpm/Fernite Launcher-${VERSION}-1.x86_64.rpm" \
+            --clobber

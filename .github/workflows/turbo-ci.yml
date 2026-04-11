@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize]
+  merge_group:
+    types: [checks_requested]
+
+jobs:
+  build:
+    name: Lint and Test
+    runs-on: ubuntu-latest
+
+    env:
+      FORCE_COLOR: 3
+      NEXTEST_NO_TESTS: pass
+      RUSTFLAGS: -Dwarnings
+
+    steps:
+      - name: 📥 Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: 🧰 Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -yq libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev
+
+      - name: 🧰 Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: 🧰 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: 🧰 Setup Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          rustflags: ''
+          components: clippy, rustfmt
+          cache: false
+
+      - name: 🧰 Setup nextest
+        uses: taiki-e/install-action@nextest
+
+      - name: 💨 Setup Turbo cache
+        uses: rharkor/caching-for-turbo@v1.8
+
+      - name: 🧰 Install dependencies
+        run: pnpm install
+
+      - name: ⚙️ Set app environment
+        working-directory: packages/app-lib
+        run: cp .env.staging .env
+
+      - name: 🔍 Lint and test
+        run: pnpm run ci
+
+      - name: 🔍 Verify intl:extract has been run
+        run: |
+          pnpm turbo run intl:extract --force
+          git diff --exit-code --color */*/src/locales/en-US/index.json

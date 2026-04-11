@@ -1,0 +1,6 @@
+{
+	"extends": "@fernite/tooling-config/typescript/base.json",
+	"compilerOptions": {
+		"isolatedModules": false
+	}
+}

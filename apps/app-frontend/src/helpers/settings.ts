@@ -6,7 +6,7 @@
 import { invoke } from '@tauri-apps/api/core'
 
 import type { Hooks, MemorySettings, WindowSize } from '@/helpers/types'
-import type { ColorTheme, AccentColor, FeatureFlag } from '@/store/theme.ts'
+import type { AccentColor, ColorTheme, FeatureFlag } from '@/store/theme.ts'
 
 // Settings object
 /*

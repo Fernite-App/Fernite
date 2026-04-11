@@ -1,7 +1,6 @@
 <script setup>
 import { AuthFeature, PanelVersionFeature, TauriModrinthClient } from '@fernite/api-client'
 import {
-	ArrowBigUpDashIcon,
 	ChangeSkinIcon,
 	CompassIcon,
 	DownloadIcon,
@@ -14,8 +13,8 @@ import {
 	MaximizeIcon,
 	MinimizeIcon,
 	NotepadTextIcon,
-	PlusIcon,
 	PlayIcon,
+	PlusIcon,
 	RefreshCwIcon,
 	RestoreIcon,
 	RightArrowIcon,
@@ -56,7 +55,7 @@ import { openUrl } from '@tauri-apps/plugin-opener'
 import { type } from '@tauri-apps/plugin-os'
 import { saveWindowState, StateFlags } from '@tauri-apps/plugin-window-state'
 import { $fetch } from 'ofetch'
-import { computed, onMounted, onUnmounted, provide, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, provide, ref } from 'vue'
 import { RouterView, useRoute, useRouter } from 'vue-router'
 
 import FerniteAppLogo from '@/assets/fernite_launcher.svg?component'
@@ -78,7 +77,7 @@ import QuickInstanceSwitcher from '@/components/ui/QuickInstanceSwitcher.vue'
 import RunningAppBar from '@/components/ui/RunningAppBar.vue'
 import SplashScreen from '@/components/ui/SplashScreen.vue'
 import { useCheckDisableMouseover } from '@/composables/macCssFix.js'
-import { debugAnalytics, initAnalytics, trackEvent } from '@/helpers/analytics'
+import { trackEvent } from '@/helpers/analytics'
 import { check_reachable } from '@/helpers/auth.js'
 import { get_user, get_version } from '@/helpers/cache.js'
 import { command_listener, warning_listener } from '@/helpers/events.js'
@@ -485,7 +484,7 @@ async function logOut() {
 }
 
 const MIDAS_BITFLAG = 1 << 0
-const hasPlus = computed(
+const _hasPlus = computed(
 	() =>
 		credentials.value &&
 		credentials.value.user &&
@@ -1068,7 +1067,10 @@ provideAppUpdateDownloadProgress(appUpdateDownload)
 		</div>
 		<div data-tauri-drag-region class="app-grid-statusbar bg-bg-raised h-[--top-bar-height] flex">
 			<div data-tauri-drag-region class="flex min-w-0 flex-1 overflow-hidden p-3">
-				<FerniteAppLogo class="h-full w-auto shrink-0 pointer-events-none" style="color: var(--color-brand)" />
+				<FerniteAppLogo
+					class="h-full w-auto shrink-0 pointer-events-none"
+					style="color: var(--color-brand)"
+				/>
 				<div data-tauri-drag-region class="flex shrink-0 items-center gap-1 ml-3">
 					<button
 						class="cursor-pointer p-0 m-0 text-contrast border-none outline-none bg-button-bg rounded-full flex items-center justify-center w-6 h-6 hover:brightness-75 transition-all"
@@ -1210,9 +1212,7 @@ provideAppUpdateDownloadProgress(appUpdateDownload)
 			<div class="app-sidebar-scrollable flex-grow shrink overflow-y-auto relative">
 				<div id="sidebar-teleport-target" class="sidebar-teleport-content"></div>
 				<div class="sidebar-default-content" :class="{ 'sidebar-enabled': sidebarVisible }">
-					<div
-						class="p-4 border-0 border-b-[1px] border-[--brand-gradient-border] border-solid"
-					>
+					<div class="p-4 border-0 border-b-[1px] border-[--brand-gradient-border] border-solid">
 						<h3 class="text-base text-primary font-medium m-0">Playing as</h3>
 						<suspense>
 							<AccountsCard ref="accounts" mode="small" />
@@ -1249,11 +1249,20 @@ provideAppUpdateDownloadProgress(appUpdateDownload)
 									<LibraryIcon class="w-4 h-4 text-secondary" />
 								</div>
 								<div class="flex flex-col min-w-0 flex-1">
-									<span class="text-sm font-medium text-primary truncate">{{ instance.metadata?.name ?? instance.path }}</span>
+									<span class="text-sm font-medium text-primary truncate">{{
+										instance.metadata?.name ?? instance.path
+									}}</span>
 									<span class="text-xs text-secondary">
 										{{ instance.metadata?.game_version ?? '' }}
-										<template v-if="instance.metadata?.game_version && instance.metadata?.loader"> · </template>
-										{{ instance.metadata?.loader ? (instance.metadata.loader.charAt(0).toUpperCase() + instance.metadata.loader.slice(1)) : '' }}
+										<template v-if="instance.metadata?.game_version && instance.metadata?.loader">
+											·
+										</template>
+										{{
+											instance.metadata?.loader
+												? instance.metadata.loader.charAt(0).toUpperCase() +
+													instance.metadata.loader.slice(1)
+												: ''
+										}}
 									</span>
 								</div>
 								<ButtonStyled

@@ -58,7 +58,7 @@ export async function transformFriends(
 
 	// When credentials are available, resolve Modrinth usernames/avatars.
 	// When offline (no credentials), we still show friends by their user_id.
-	let userMap: Map<string, User> = new Map()
+	const userMap: Map<string, User> = new Map()
 	if (credentials) {
 		const userIds = friends.map((x) => (x.id === credentials.user_id ? x.friend_id : x.id))
 		const users = await get_user_many(userIds)

@@ -128,13 +128,13 @@ import {
 	get_content_items,
 	get_linked_modpack_content,
 	get_linked_modpack_info,
+	get_missing_dependencies,
+	install_missing_dependencies,
 	list,
 	remove_project,
 	toggle_disable_project,
 	update_managed_modrinth_version,
 	update_project,
-	get_missing_dependencies,
-	install_missing_dependencies,
 } from '@/helpers/profile'
 import { get_categories } from '@/helpers/tags.js'
 import type { CacheBehaviour, GameInstance } from '@/helpers/types'

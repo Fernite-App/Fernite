@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {
 	CoffeeIcon,
+	FerniteIcon,
 	GameIcon,
 	GaugeIcon,
 	LanguagesIcon,
-	FerniteIcon,
 	PaintbrushIcon,
 	SettingsIcon,
 	ShieldIcon,

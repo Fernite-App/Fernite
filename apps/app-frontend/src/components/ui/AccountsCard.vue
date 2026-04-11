@@ -53,11 +53,11 @@
 					</Button>
 				</div>
 			</div>
-			<Button class="action-btn" v-if="accounts.length > 0" @click="login()">
+			<Button v-if="accounts.length > 0" class="action-btn" @click="login()">
 				<PlusIcon />
 				Add Microsoft Account
 			</Button>
-			<Button class="action-btn" v-else @click="login()">
+			<Button v-else class="action-btn" @click="login()">
 				<LogInIcon v-if="!loginDisabled" />
 				<SpinnerIcon v-else class="animate-spin" />
 				Sign in with Microsoft

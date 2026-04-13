@@ -54,6 +54,11 @@ jobs:
       - name: 🧰 Install dependencies
         run: pnpm install
 
+      - name: Make Gradle wrapper executable
+        run: |
+          chmod +x packages/app-lib/java/gradlew
+          chmod +x packages/app-lib/java/gradlew.bat
+
       - name: ⚙️ Set app environment
         working-directory: packages/app-lib
         run: cp .env.staging .env

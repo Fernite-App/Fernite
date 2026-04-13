@@ -38,7 +38,9 @@ function hexToRgb(hex: string) {
 }
 
 function rgbToHex(r: number, g: number, b: number) {
-	return '#' + [r, g, b].map((v) => Math.max(0, Math.min(255, v)).toString(16).padStart(2, '0')).join('')
+	return (
+		'#' + [r, g, b].map((v) => Math.max(0, Math.min(255, v)).toString(16).padStart(2, '0')).join('')
+	)
 }
 
 const rgb = ref(hexToRgb(props.modelValue || '#1bd96a'))
@@ -90,10 +92,7 @@ const textOnColor = computed(() =>
 <template>
 	<div class="color-picker">
 		<!-- Preview swatch -->
-		<div
-			class="color-preview"
-			:style="{ background: currentHex, color: textOnColor }"
-		>
+		<div class="color-preview" :style="{ background: currentHex, color: textOnColor }">
 			<span class="color-preview-hex">{{ hexInput }}</span>
 			<div class="color-preview-dots">
 				<span class="dot" :style="{ background: currentHex }" />
@@ -225,14 +224,16 @@ const textOnColor = computed(() =>
 	align-items: center;
 	justify-content: space-between;
 	transition: background 0.25s ease;
-	box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12), 0 4px 16px rgba(0,0,0,0.25);
+	box-shadow:
+		inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+		0 4px 16px rgba(0, 0, 0, 0.25);
 }
 .color-preview-hex {
 	font-family: monospace;
 	font-size: 1rem;
 	font-weight: 700;
 	letter-spacing: 0.08em;
-	text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+	text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 .color-preview-dots {
 	display: flex;
@@ -244,7 +245,7 @@ const textOnColor = computed(() =>
 	height: 0.75rem;
 	border-radius: 50%;
 	display: inline-block;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.35);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
 }
 
 /* Presets */
@@ -261,17 +262,22 @@ const textOnColor = computed(() =>
 	background: var(--swatch);
 	cursor: pointer;
 	outline: none;
-	transition: transform 0.13s ease, box-shadow 0.13s ease, border-color 0.13s ease;
+	transition:
+		transform 0.13s ease,
+		box-shadow 0.13s ease,
+		border-color 0.13s ease;
 
 	&:hover {
 		transform: scale(1.15);
-		box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+		box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 	}
 
 	&.active {
 		border-color: var(--color-contrast);
 		transform: scale(1.12);
-		box-shadow: 0 0 0 2px var(--swatch), 0 4px 14px var(--swatch);
+		box-shadow:
+			0 0 0 2px var(--swatch),
+			0 4px 14px var(--swatch);
 	}
 }
 
@@ -335,7 +341,7 @@ const textOnColor = computed(() =>
 		border-radius: 50%;
 		background: var(--color-contrast);
 		border: 2px solid var(--color-raised-bg);
-		box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 		transition: transform 0.1s ease;
 
 		&:hover {
@@ -349,7 +355,7 @@ const textOnColor = computed(() =>
 		border-radius: 50%;
 		background: var(--color-contrast);
 		border: 2px solid var(--color-raised-bg);
-		box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 		cursor: pointer;
 	}
 }

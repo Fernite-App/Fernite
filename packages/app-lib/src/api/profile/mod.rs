@@ -541,9 +541,8 @@ pub async fn get_missing_dependencies(
     profile_path: &str,
 ) -> crate::Result<Vec<MissingDependency>> {
     let state = State::get().await?;
-    let profile = match get(profile_path).await? {
-        Some(p) => p,
-        None => return Ok(vec![]),
+    let Some(profile) = get(profile_path).await? else {
+        return Ok(vec![]);
     };
 
     let projects = profile
@@ -566,7 +565,7 @@ pub async fn get_missing_dependencies(
         })
         .collect();
 
-    for entry in projects.iter() {
+    for entry in &projects {
         let path = entry.key();
         let file = entry.value();
         if file.metadata.is_none() {
@@ -584,9 +583,8 @@ pub async fn get_missing_dependencies(
         .flatten();
 
         if let Some(version) = version {
-            for dep in version.dependencies.iter() {
-                if dep.dependency_type
-                    != crate::state::DependencyType::Required
+            for dep in &version.dependencies {
+                if dep.dependency_type != crate::state::DependencyType::Required
                 {
                     continue;
                 }
@@ -610,7 +608,8 @@ pub async fn get_missing_dependencies(
                                 .flatten()
                                 .unwrap_or_default();
 
-                            let loader_str = profile.loader.as_str().to_string();
+                            let loader_str =
+                                profile.loader.as_str().to_string();
                             let preferred = dep_versions
                                 .iter()
                                 .find(|v| {

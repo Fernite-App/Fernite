@@ -257,9 +257,8 @@ async function copyToClipboard(text) {
 					<template v-if="metadata.readOnly">
 						<h3>Change directory permissions</h3>
 						<p>
-							It looks like the Fernite App is unable to write to the directory you selected.
-							Please adjust the permissions of the directory and try again or cancel the directory
-							change.
+							It looks like the Fernite App is unable to write to the directory you selected. Please
+							adjust the permissions of the directory and try again or cancel the directory change.
 						</p>
 					</template>
 					<template v-else-if="metadata.notEnoughSpace">
@@ -271,8 +270,8 @@ async function copyToClipboard(text) {
 					</template>
 					<template v-else>
 						<p>
-							The Fernite App is unable to migrate to the new directory you selected. Please
-							contact support for help or cancel the directory change.
+							The Fernite App is unable to migrate to the new directory you selected. Please contact
+							support for help or cancel the directory change.
 						</p>
 					</template>
 

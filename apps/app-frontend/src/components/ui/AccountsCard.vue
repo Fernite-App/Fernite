@@ -31,24 +31,47 @@
 					<span class="account-name">{{ selectedAccount.profile.name }}</span>
 					<span class="account-label">Selected</span>
 				</div>
-				<Button v-tooltip="'Log out'" icon-only color="raised" class="trash-btn" @click="logout(selectedAccount.profile.id)">
+				<Button
+					v-tooltip="'Log out'"
+					icon-only
+					color="raised"
+					class="trash-btn"
+					@click="logout(selectedAccount.profile.id)"
+				>
 					<TrashIcon />
 				</Button>
 			</div>
 			<div v-else class="account-row logged-out-row">
 				<span class="account-name">Not signed in</span>
-				<Button v-tooltip="'Log in'" :disabled="loginDisabled" icon-only color="primary" @click="login()">
+				<Button
+					v-tooltip="'Log in'"
+					:disabled="loginDisabled"
+					icon-only
+					color="primary"
+					@click="login()"
+				>
 					<LogInIcon v-if="!loginDisabled" />
 					<SpinnerIcon v-else class="animate-spin" />
 				</Button>
 			</div>
 			<div v-if="displayAccounts.length > 0" class="account-group">
-				<div v-for="account in displayAccounts" :key="account.profile.id" class="account-row other-row" @click="setAccount(account)">
+				<div
+					v-for="account in displayAccounts"
+					:key="account.profile.id"
+					class="account-row other-row"
+					@click="setAccount(account)"
+				>
 					<Avatar size="40px" :src="getAccountAvatarUrl(account)" class="account-avatar" />
 					<div class="account-info">
 						<span class="account-name">{{ account.profile.name }}</span>
 					</div>
-					<Button v-tooltip="'Log out'" icon-only color="raised" class="trash-btn" @click.stop="logout(account.profile.id)">
+					<Button
+						v-tooltip="'Log out'"
+						icon-only
+						color="raised"
+						class="trash-btn"
+						@click.stop="logout(account.profile.id)"
+					>
 						<TrashIcon />
 					</Button>
 				</div>
@@ -72,7 +95,11 @@
 	<!-- Centered offline account modal -->
 	<teleport to="body">
 		<transition name="modal-fade">
-			<div v-if="showOfflineInput" class="offline-modal-overlay" @click.self="showOfflineInput = false">
+			<div
+				v-if="showOfflineInput"
+				class="offline-modal-overlay"
+				@click.self="showOfflineInput = false"
+			>
 				<div class="offline-modal">
 					<h3 class="offline-modal-title">Add offline account</h3>
 					<StyledInput
@@ -575,7 +602,9 @@ onUnmounted(() => {
 	transition: opacity 0.2s ease;
 
 	.offline-modal {
-		transition: transform 0.2s ease, opacity 0.2s ease;
+		transition:
+			transform 0.2s ease,
+			opacity 0.2s ease;
 	}
 }
 

@@ -109,8 +109,11 @@ export const useTheming = defineStore('themeStore', {
 			const b = parseInt(color.slice(5, 7), 16)
 
 			// Convert RGB to HSL for smarter shade generation
-			const rn = r / 255, gn = g / 255, bn = b / 255
-			const max = Math.max(rn, gn, bn), min = Math.min(rn, gn, bn)
+			const rn = r / 255,
+				gn = g / 255,
+				bn = b / 255
+			const max = Math.max(rn, gn, bn),
+				min = Math.min(rn, gn, bn)
 			const l = (max + min) / 2
 			const d = max - min
 			const s = d === 0 ? 0 : d / (1 - Math.abs(2 * l - 1))
@@ -126,15 +129,30 @@ export const useTheming = defineStore('themeStore', {
 			// HSL to RGB helper
 			const hslToRgb = (hh: number, ss: number, ll: number) => {
 				const c = (1 - Math.abs(2 * ll - 1)) * ss
-				const x = c * (1 - Math.abs((hh / 60) % 2 - 1))
+				const x = c * (1 - Math.abs(((hh / 60) % 2) - 1))
 				const m = ll - c / 2
-				let r1 = 0, g1 = 0, b1 = 0
-				if (hh < 60) { r1 = c; g1 = x }
-				else if (hh < 120) { r1 = x; g1 = c }
-				else if (hh < 180) { g1 = c; b1 = x }
-				else if (hh < 240) { g1 = x; b1 = c }
-				else if (hh < 300) { r1 = x; b1 = c }
-				else { r1 = c; b1 = x }
+				let r1 = 0,
+					g1 = 0,
+					b1 = 0
+				if (hh < 60) {
+					r1 = c
+					g1 = x
+				} else if (hh < 120) {
+					r1 = x
+					g1 = c
+				} else if (hh < 180) {
+					g1 = c
+					b1 = x
+				} else if (hh < 240) {
+					g1 = x
+					b1 = c
+				} else if (hh < 300) {
+					r1 = x
+					b1 = c
+				} else {
+					r1 = c
+					b1 = x
+				}
 				return [Math.round((r1 + m) * 255), Math.round((g1 + m) * 255), Math.round((b1 + m) * 255)]
 			}
 

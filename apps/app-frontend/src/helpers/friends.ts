@@ -73,7 +73,7 @@ export async function transformFriends(
 			? friend.id === credentials.user_id
 				? friend.friend_id
 				: friend.id
-			: friend.friend_id ?? friend.id
+			: (friend.friend_id ?? friend.id)
 
 		const user = userMap.get(otherId)
 		const status = friendStatuses.find(

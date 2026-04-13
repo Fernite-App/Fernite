@@ -88,7 +88,11 @@ function resetToDefault() {
 				Reset
 			</button>
 		</div>
-		<ColorPickerCustom :model-value="currentAccent" :presets="presetColors" @update:model-value="applyColor" />
+		<ColorPickerCustom
+			:model-value="currentAccent"
+			:presets="presetColors"
+			@update:model-value="applyColor"
+		/>
 	</div>
 
 	<div class="mt-4 flex items-center justify-between">

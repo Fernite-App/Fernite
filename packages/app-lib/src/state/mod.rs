@@ -123,37 +123,41 @@ impl State {
             loop {
                 interval.tick().await;
 
-                if let Ok(settings) = Settings::get(&state.pool).await
-                    && settings.auto_update_mods.unwrap_or(false)
-                {
-                    if let Ok(profiles) = Profile::get_all(&state.pool).await {
-                        for profile in profiles {
-                            let profile_path = profile.path.clone();
-                            let profile_name = profile.name.clone();
-                            let pool = state.pool.clone();
-                            let _ = tokio::spawn(async move {
-                                if let Ok(updates) =
-                                    crate::api::profile::get_outdated_projects(
-                                        &profile_path,
-                                        &pool,
-                                    )
-                                    .await
-                                    && !updates.is_empty()
-                                {
-                                    tracing::info!(
-                                        "Found {} updates for profile {}, auto-updating...",
-                                        updates.len(),
-                                        profile_name
-                                    );
-                                    let _ = crate::api::profile::update_all_projects(
-                                        &profile_path,
-                                    )
-                                    .await;
-                                }
-                            })
+                let Ok(settings) = (Settings::get(&state.pool).await
+                    && settings.auto_update_mods.unwrap_or(false))
+                else {
+                    continue;
+                };
+
+                let Ok(profiles) = Profile::get_all(&state.pool).await else {
+                    continue;
+                };
+
+                for profile in profiles {
+                    let profile_path = profile.path.clone();
+                    let profile_name = profile.name.clone();
+                    let pool = state.pool.clone();
+                    let _ = tokio::spawn(async move {
+                        if let Ok(updates) =
+                            crate::api::profile::get_outdated_projects(
+                                &profile_path,
+                                &pool,
+                            )
+                            .await
+                            && !updates.is_empty()
+                        {
+                            tracing::info!(
+                                "Found {} updates for profile {}, auto-updating...",
+                                updates.len(),
+                                profile_name
+                            );
+                            let _ = crate::api::profile::update_all_projects(
+                                &profile_path,
+                            )
                             .await;
                         }
-                    }
+                    })
+                    .await;
                 }
             }
         });

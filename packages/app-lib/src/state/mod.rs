@@ -123,11 +123,13 @@ impl State {
             loop {
                 interval.tick().await;
 
-                let Ok(settings) = (Settings::get(&state.pool).await
-                    && settings.auto_update_mods.unwrap_or(false))
-                else {
+                let Ok(settings) = Settings::get(&state.pool).await else {
                     continue;
                 };
+
+                if !settings.auto_update_mods.unwrap_or(false) {
+                    continue;
+                }
 
                 let Ok(profiles) = Profile::get_all(&state.pool).await else {
                     continue;
